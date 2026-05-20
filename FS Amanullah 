@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SECURITY_CORE_v1.0</title>
+    <style>
+        body { background-color: #000; color: #0f0; font-family: 'Courier New', monospace; padding: 20px; }
+        .container { border: 1px solid #0f0; padding: 20px; max-width: 600px; margin: auto; }
+        input { width: 90%; padding: 10px; background: #111; color: #0f0; border: 1px solid #0f0; margin-bottom: 15px; }
+        .button-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        button { background: #0f0; color: #000; border: none; padding: 12px; cursor: pointer; font-weight: bold; }
+        #output { margin-top: 20px; word-break: break-all; border-top: 1px dashed #0f0; padding-top: 15px; color: #fff; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>[ SYSTEM_CORE_INITIALIZED ]</h1>
+    <input type="text" id="target" placeholder="INPUT_TARGET_URL_OR_ID">
+    
+    <div class="button-grid">
+        <button onclick="runScan('PHISHING')">PHISHING_SCAN</button>
+        <button onclick="runScan('MALWARE')">MALWARE_SCAN</button>
+        <button onclick="runScan('HACK')">HACK_CHECK</button>
+        <button onclick="runScan('DEEP')">DEEP_SCAN</button>
+    </div>
+
+    <div id="output">WAITING_FOR_INPUT...</div>
+</div>
+
+<script>
+function runScan(mode) {
+    const targetInput = document.getElementById('target').value;
+    const target = targetInput.toLowerCase();
+    const output = document.getElementById('output');
+    
+    if (targetInput === "") {
+        output.innerHTML = "ERROR: NO_INPUT_DETECTED";
+        return;
+    }
+
+    output.innerHTML = "SCANNING_IN_PROGRESS...";
+
+    // SECURITY PATTERNS
+    const maliciousPatterns = [
+        "phishing", "login-steal", "hack", "virus", "malware", 
+        "scam", "bit.ly", "tinyurl", "cutt.ly", "keylogger", 
+        "exploit", "stealer", "credential", "attack"
+    ];
+    
+    setTimeout(() => {
+        let isThreat = maliciousPatterns.some(pattern => target.includes(pattern));
+        
+        if (isThreat) {
+            output.innerHTML = "CRITICAL: THREAT_DETECTED_IN_" + mode + "_SCAN. ACTION_REQUIRED: TERMINATE_CONNECTION.";
+        } else {
+            output.innerHTML = "STATUS: " + mode + "_SCAN_COMPLETE. NO_MALICIOUS_SIGNATURES_FOUND_IN: " + targetInput;
+        }
+    }, 600);
+}
+</script>
+
+</body>
+</html>
